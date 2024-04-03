@@ -1,68 +1,71 @@
 import re
 import time
-
-def again():
-	respond = input("Scan again? [yes/no]:\n")
-	respond = respond.lower()
-	if respond == "yes":
-		return True
-	else:
-		return False
-def extractor():
-	def txt():
-		def extractednums(text):
-			regex = r"(\+\d{1,4}\s?)?((\(\d{3}\)|\d{3}))[\s.-]?\d{3}[\s.-]?\d{3,4}( x\d{1,5})"
-			phonelist = re.findall(regex,text)
-			return phonelist
-		text = input("Paste text containing phone numbers here")
-		text = text.upper()
-		phones = extractednums(text)
-		print("Extracted Phone numbers: \n")
-		for phone in phones:
-			time.sleep(1)
-			print(phone)
-			time.sleep(1)
-			print("Successfully done!")
-	def url():
+def textextractor():
+	def extractednums(text):
+		pattern = r'\b(?:\+?254|0)?(?:7|1\d)\d{8}\b'
+		# \b is a word boundary
+		# \+?254 matches optional country code (+254)
+		# 0? matches optional leading zero
+		# (?:7|1\d) matches either 7 or 1 followed by a digit
+		# \d{8} matches 8 digits (total 10 digits including the initial 0 or +254)
+		matches = re.findall(pattern, text)
+		return matches
+	time.sleep(0.5)
+	text = input("Paste text containing phone numbers here:\n")
+	phones = extractednums(text)
+	time.sleep(0.5)
+	print("Extracted phone numbers:\n")
+	for key in phones:
+		time.sleep(1)
+		print(key)
+		time.sleep(1.5)
+		print("Successfully done!")
+def urlextractor():
 		def extractednums(url):
 			import requests
 			from bs4 import BeautifulSoup
 			response = requests.get(url)
 			soup = BeautifulSoup(response.text,'html.parser')
-			regex = r"(\+\d{1,4}\s?)?((\(\d{3}\)|\d{3}))[\s.-]?\d{3}[\s.-]?\d{3,4}( x\d{1,5})"
-			phonelist = re.findall(regex,str(soup))
-			return phonelist
-		url = input("Paste Url Containing phone numbers here: \n")
+			pattern = r'\b(?:\+?254|0)?(?:7|1\d)\d{8}\b'
+			# \b is a word boundary
+			# \+?254 matches optional country code (+254)
+			# 0? matches optional leading zero
+			# (?:7|1\d) matches either 7 or 1 followed by a digit
+			# \d{8} matches 8 digits (total 10 digits including the initial 0 or +254)
+			matches = re.findall(pattern, str(soup))
+			return matches
+		url = input("Paste url containing phone numbers here:\n")
+		url = url.lower()
 		phones = extractednums(url)
-		print("Extracted phone numbers:\n")
-		for phone in phones:
+		time.sleep(1)
+		print("Extracted Phone Numbers:\n")
+		time.sleep(1)
+		for key in phones:
 			time.sleep(1)
-			print(phone)
+			print(key)
 			time.sleep(1)
-			print("Successfully done!")
-	user_input = input("""
-	How do you wish to extract the phone numbers:
-	1: Through text
-	2: Through a url
-	[reply with text/url]
+def newgame():
+	user_input = input("""Hello, this is a phone number extractor, how do you wish to extract target phone numbers?
+1:Through text
+2:Through url
+[reply with: [text/url]:
 	""")
-	user_input = user_input.lower()
 	if user_input == "text":
-		txt()
-		again()
-		while again():
-			extractor()
+		time.sleep(1)
+		textextractor()
 	elif user_input == "url":
-		url()
-		again()
-		while again():
-			extractor()
+		time.sleep(1)
+		urlextractor()
 	else:
-		print("That is invalid")
-		again()
-		while again():
-			extractor()
-extractor()
+		time.sleep(2)
+		print("Invalid user input.")
+def again():
+	respond = input("Scan again?\n")
+	respond = respond.lower()
+	if respond == "yes":
+		return True
+	else:
+		return False
+newgame()
 while again():
-	extractor()
-		
+	newgame()
