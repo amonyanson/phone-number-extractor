@@ -1,0 +1,8 @@
+This is the phone number pattern, paste it on the regex/pattern variable
+
+			pattern = r'\b(?:\+?254|0)?(?:7|1\d)\d{8}\b'
+			# \b is a word boundary
+			# \+?254 matches optional country code (+254)
+			# 0? matches optional leading zero
+			# (?:7|1\d) matches either 7 or 1 followed by a digit
+			# \d{8} matches 8 digits (total 10 digits including the initial 0 or +254)
